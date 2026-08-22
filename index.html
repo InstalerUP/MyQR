@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QR Генератор – локальное создание QR-кодов</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="container header-inner">
+      <h1 class="logo">QR<span>Генератор</span></h1>
+      <p class="tagline">Локальная генерация QR-кодов</p>
+    </div>
+  </header>
+
+  <main class="container layout">
+    
+    <!-- Result -->
+    <section class="card preview" aria-labelledby="preview-title">
+      <h2 id="preview-title" class="card-title">Результат</h2>
+      <div class="preview-stage checkerboard" id="preview-stage">
+        <img id="preview-img" alt="Сгенерированный QR-код" draggable="false" hidden />
+      </div>
+      <span class="label">Сохранить изображение</span>
+      <div class="downloads">
+        <button type="button" id="download-jpg" class="btn btn-primary">JPG</button>
+        <button type="button" id="download-png" class="btn btn-primary">PNG</button>
+        <button type="button" id="download-svg" class="btn btn-primary">SVG</button>
+      </div>
+      <span class="label">Копировать изображение</span>
+      <div class="downloads">
+        <button type="button" id="copy-jpg" class="btn btn-outline">JPG</button>
+        <button type="button" id="copy-png" class="btn btn-outline">PNG</button>
+        <button type="button" id="copy-svg" class="btn btn-outline">SVG</button>
+      </div>
+    </section>
+    
+    <!-- Settings -->
+    <section class="card controls" aria-labelledby="controls-title">
+      <h2 id="controls-title" class="card-title">Настройки</h2>
+
+      <div class="field">
+        <label class="label" for="text-input">Текст или ссылка</label>
+        <textarea id="text-input" class="input textarea" rows="5" placeholder="Например: https://example.com" autofocus>https://example.com</textarea>
+      </div>
+
+      <div class="field">
+        <label class="label" for="ec-level">Коррекция ошибок</label>
+        <div class="select-wrap">
+          <select id="ec-level" class="input select">
+            <option value="L">L – низкая (до 7%)</option>
+            <option value="M" selected>M – средняя (до 15%)</option>
+            <option value="Q">Q – высокая (до 25%)</option>
+            <option value="H">H – максимальная (до 30%)</option>
+          </select>
+        </div>
+        <p class="hint" id="ec-hint">Процент максимально допустимого дефекта изображения (чем больше, тем надёжнее).</p>
+      </div>
+
+      <div class="field">
+        <legend class="label">Цвет QR-кода</legend>
+        <div class="color-row">
+          <div class="swatches" id="fg-swatches"></div>
+          <label class="color-pick" title="Свой цвет – вся палитра">
+            <input type="color" id="fg-color" value="#0f172a" />
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <legend class="label">Цвет фона (используется для JPG)</legend>
+        <div class="color-row">
+          <div class="swatches" id="bg-swatches"></div>
+          <label class="color-pick" title="Свой цвет – вся палитра">
+            <input type="color" id="bg-color" value="#ffffff" />
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <span class="label">Логотип по центру</span>
+        <div class="file-row">
+          <label class="btn btn-outline file-btn">
+            <input type="file" id="logo-input" accept="image/*" hidden />
+            <span id="logo-btn-text">Выбрать изображение</span>
+          </label>
+          <button type="button" id="logo-remove" class="btn btn-ghost" hidden>Убрать</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/qrcode.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
