@@ -3,7 +3,6 @@
 /* ==================== Состояние ==================== */
 const EXPORT_SIZE = 1024;   // размер скачиваемого PNG/JPG
 const PREVIEW_SIZE = 480;   // размер preview
-const LOGO_RATIO = 0.2;     // логотип до 20% ширины QR
 const QUIET_ZONE = 4;       // стандартный отступ (в модулях)
 
 const STATE = {
@@ -11,7 +10,6 @@ const STATE = {
   ecLevel: 'M',
   fgColor: '#000000',
   bgColor: '#ffffff',
-  logo: null,               // { dataUrl, img }
 };
 
 const PRESET_FG = [
@@ -36,9 +34,6 @@ const elFgSwatches = $('fg-swatches');
 const elBgSwatches = $('bg-swatches');
 const elFgColor = $('fg-color');
 const elBgColor = $('bg-color');
-const elLogoInput = $('logo-input');
-const elLogoBtnText = $('logo-btn-text');
-const elLogoRemove = $('logo-remove');
 const elPreviewImg = $('preview-img');
 const elPlaceholder = $('preview-placeholder');
 const elBtnSvg = $('download-svg');
@@ -124,9 +119,8 @@ function buildQr(text, ecLevel) {
 
 /**
  * Строит SVG строку QR-кода.
- * Если logo передан — встраивает его в центр.
  */
-function buildQrSvg(qr, fgColor, logo = null) {
+function buildQrSvg(qr, fgColor) {
   const count = qr.getModuleCount();
   const total = count + QUIET_ZONE * 2;
   const viewSize = 1024;
@@ -156,32 +150,9 @@ function buildQrSvg(qr, fgColor, logo = null) {
     ` shape-rendering="crispEdges">`
   ];
 
-  if (logo) {
-    const logoSizePx = viewSize * LOGO_RATIO;
-    const pad = logoSizePx * 0.14;
-    const x = (viewSize - logoSizePx) / 2;
-    const y = (viewSize - logoSizePx) / 2;
-    parts.push(
-      `<rect x="${(x - pad).toFixed(2)}" y="${(y - pad).toFixed(2)}"`,
-      ` width="${(logoSizePx + pad * 2).toFixed(2)}" height="${(logoSizePx + pad * 2).toFixed(2)}"`,
-      ` rx="${(pad).toFixed(2)}" fill="#ffffff"/>`
-    );
-  }
-
   parts.push(
     `<path d="${paths.join('')}" fill="${fgColor}"/>`
   );
-
-  if (logo && logo.dataUrl) {
-    const lw = viewSize * LOGO_RATIO;
-    const lx = (viewSize - lw) / 2;
-    const ly = (viewSize - lw) / 2;
-    parts.push(
-      `<image x="${lx.toFixed(2)}" y="${ly.toFixed(2)}" width="${lw.toFixed(2)}"`,
-      ` height="${lw.toFixed(2)}" xlink:href="${logo.dataUrl}"`,
-      ` preserveAspectRatio="xMidYMid meet"/>`
-    );
-  }
 
   parts.push('</svg>');
   return parts.join('');
@@ -210,34 +181,11 @@ async function svgStringToCanvas(svgString, size) {
   }
 }
 
-function drawLogoOnCanvas(canvas, logo) {
-  if (!logo || !logo.img) return;
-  const ctx = canvas.getContext('2d');
-  const size = canvas.width;
-  const logoSize = Math.round(size * LOGO_RATIO);
-  const pad = Math.round(logoSize * 0.14);
-  const x = (size - logoSize) / 2;
-  const y = (size - logoSize) / 2;
-
-  ctx.save();
-  // белая подложка под логотип
-  ctx.fillStyle = '#ffffff';
-  if (typeof ctx.roundRect === 'function') {
-    ctx.beginPath();
-    ctx.roundRect(x - pad, y - pad, logoSize + pad * 2, logoSize + pad * 2, pad);
-    ctx.fill();
-  } else {
-    ctx.fillRect(x - pad, y - pad, logoSize + pad * 2, logoSize + pad * 2);
-  }
-  ctx.drawImage(logo.img, x, y, logoSize, logoSize);
-  ctx.restore();
-}
-
 /* ==================== Экспорт ==================== */
 async function renderToCanvas(opts = {}) {
   const { size = EXPORT_SIZE, background = null } = opts;
   const qr = buildQr(STATE.text, STATE.ecLevel);
-  const svg = buildQrSvg(qr, STATE.fgColor, null); // без лого в SVG — рисуем отдельно
+  const svg = buildQrSvg(qr, STATE.fgColor);
   const canvas = await svgStringToCanvas(svg, size);
 
   if (background) {
@@ -248,14 +196,13 @@ async function renderToCanvas(opts = {}) {
     ctx.globalCompositeOperation = 'source-over';
   }
 
-  drawLogoOnCanvas(canvas, STATE.logo);
   return canvas;
 }
 
 async function downloadSvg() {
   try {
     const qr = buildQr(STATE.text, STATE.ecLevel);
-    const svg = buildQrSvg(qr, STATE.fgColor, STATE.logo);
+    const svg = buildQrSvg(qr, STATE.fgColor);
     const blob = new Blob([svg], { type: 'image/svg+xml;charset=utf-8' });
     triggerDownload(blob, `qr-${stamp()}.svg`);
     toast('SVG скачан');
@@ -293,12 +240,12 @@ async function downloadJpg() {
 async function copySvgToClipboard() {
   try {
     const qr = buildQr(STATE.text, STATE.ecLevel);
-    const svg = buildQrSvg(qr, STATE.fgColor, STATE.logo);
+    const svg = buildQrSvg(qr, STATE.fgColor);
     const blob = new Blob([svg], { type: 'image/svg+xml;charset=utf-8' });
 
     if (navigator.clipboard && window.ClipboardItem) {
       await navigator.clipboard.write([new ClipboardItem({ 'image/svg+xml': blob })]);
-      toast('SVG скопирован в буфер (без фона)');
+      toast('Изображение скопировано в буфер (векторное)');
     } else {
       toast('Браузер не поддерживает копирование SVG.', true);
     }
@@ -316,12 +263,12 @@ async function copyPngToClipboard() {
 
     if (navigator.clipboard && window.ClipboardItem) {
       await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
-      toast('Прозрачный PNG скопирован в буфер');
+      toast('Изображение скопировано в буфер (без фона)');
     } else {
-      toast('Браузер не поддерживает копирование.\nИспользуйте правый клик → «Копировать изображение».', true);
+      toast('Браузер не поддерживает копирование.', true);
     }
   } catch (e) {
-    toast('Не удалось скопировать.\nПравый клик → «Копировать изображение».', true);
+    toast('Не удалось скопировать.', true);
   }
 }
 
@@ -329,17 +276,17 @@ async function copyJpgToClipboard() {
   try {
     const canvas = await renderToCanvas({ size: 1024, background: STATE.bgColor });
     const blob = await new Promise((resolve, reject) => {
-      canvas.toBlob((b) => b ? resolve(b) : reject(new Error('toBlob failed')), 'image/jpeg', 0.92);
+      canvas.toBlob((b) => b ? resolve(b) : reject(new Error('toBlob failed')), 'image/png');
     });
 
     if (navigator.clipboard && window.ClipboardItem) {
-      await navigator.clipboard.write([new ClipboardItem({ 'image/jpeg': blob })]);
-      toast('JPG скопирован в буфер');
+      await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+      toast('Изображение скопировано в буфер (с фоном)');
     } else {
-      toast('Браузер не поддерживает копирование JPG.', true);
+      toast('Браузер не поддерживает копирование изображений.', true);
     }
   } catch (e) {
-    toast('Не удалось скопировать JPG.', true);
+    toast('Не удалось скопировать.', true);
   }
 }
 
@@ -390,38 +337,6 @@ elFgColor.addEventListener('input', () => {
 elBgColor.addEventListener('input', () => {
   STATE.bgColor = elBgColor.value;
   syncSwatchFromPicker(elBgSwatches, STATE.bgColor);
-});
-
-elLogoInput.addEventListener('change', () => {
-  const file = elLogoInput.files && elLogoInput.files[0];
-  if (!file) return;
-
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    const img = new Image();
-    img.onload = () => {
-      STATE.logo = {
-        dataUrl: e.target.result,
-        img,
-        // квадратная область логотипа
-        displaySize: Math.min(img.width, img.height)
-      };
-      elLogoBtnText.textContent = 'Заменить изображение';
-      elLogoRemove.hidden = false;
-      renderDebounced();
-    };
-    img.onerror = () => toast('Не удалось загрузить изображение', true);
-    img.src = e.target.result;
-  };
-  reader.readAsDataURL(file);
-});
-
-elLogoRemove.addEventListener('click', () => {
-  STATE.logo = null;
-  elLogoInput.value = '';
-  elLogoBtnText.textContent = 'Выбрать изображение';
-  elLogoRemove.hidden = true;
-  renderDebounced();
 });
 
 elBtnSvg.addEventListener('click', downloadSvg);

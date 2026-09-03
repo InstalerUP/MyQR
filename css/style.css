@@ -46,11 +46,32 @@ body {
   padding: 18px 0;
 }
 
+.header-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.header-title-cell {
+  width: 100%;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.header-lang-cell {
+  width: auto;
+  white-space: nowrap;
+  text-align: right;
+  vertical-align: middle;
+  padding-left:  16px;
+}
+
+#lang-list {
+  text-align: right;
+}
+
 .header-inner {
   display: flex;
-  align-items: baseline;
-  gap: 16px;
-  flex-wrap: wrap;
+  align-items: stretch;
 }
 
 .logo {
@@ -283,21 +304,6 @@ body {
 .btn-outline:hover:not(:disabled) {
   border-color: var(--accent);
   color: var(--accent);
-}
-
-.btn-ghost {
-  background: transparent;
-  color: var(--muted);
-  border-color: transparent;
-  padding: 10px 8px;
-}
-
-.btn-ghost:hover {
-  color: #dc2626;
-}
-
-.file-btn {
-  cursor: pointer;
 }
 
 .downloads {

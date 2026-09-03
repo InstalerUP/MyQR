@@ -9,8 +9,20 @@
 <body>
   <header class="header">
     <div class="container header-inner">
-      <h1 class="logo">QR<span>Генератор</span></h1>
-      <p class="tagline">Локальная генерация QR-кодов</p>
+      <table class="header-table">
+        <tr>
+          <td>
+            <h1 class="logo">QR<span>Генератор</span></h1>
+            <p class="tagline">Локальная генерация QR-кодов</p>
+          </td>
+          <td id="lang-list">
+            <select name="lang" class="input select" style="width: auto;">
+              <option value="en">English</option>
+              <option value="ru">Russian</option>
+            </select>
+          </td>
+        </tr>
+      </table>
     </div>
   </header>
 
@@ -30,9 +42,9 @@
       </div>
       <span class="label">Копировать изображение</span>
       <div class="downloads">
-        <button type="button" id="copy-jpg" class="btn btn-outline">JPG</button>
-        <button type="button" id="copy-png" class="btn btn-outline">PNG</button>
-        <button type="button" id="copy-svg" class="btn btn-outline">SVG</button>
+        <button type="button" id="copy-jpg" class="btn btn-outline">С фоном</button>
+        <button type="button" id="copy-png" class="btn btn-outline">Без фона</button>
+        <button type="button" id="copy-svg" class="btn btn-outline">Вектор</button>
       </div>
     </section>
     
@@ -78,16 +90,6 @@
         </div>
       </div>
 
-      <div class="field">
-        <span class="label">Логотип по центру</span>
-        <div class="file-row">
-          <label class="btn btn-outline file-btn">
-            <input type="file" id="logo-input" accept="image/*" hidden />
-            <span id="logo-btn-text">Выбрать изображение</span>
-          </label>
-          <button type="button" id="logo-remove" class="btn btn-ghost" hidden>Убрать</button>
-        </div>
-      </div>
     </section>
   </main>
 
