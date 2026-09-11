@@ -1,5 +1,60 @@
 'use strict';
 
+/* ==================== Перевод ==================== */
+let translations = {};
+let currentLang = localStorage.getItem('app_lang') || 'ru';
+
+function getTranslation(key) {
+    return translations[key]?.message || key;
+}
+
+function applyTranslations() {
+    const elements = document.querySelectorAll('[data-i18n]');
+    
+    elements.forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[key] && translations[key].message) {
+            el.textContent = translations[key].message;
+        }
+    });
+
+    document.documentElement.lang = currentLang;
+}
+
+function updateSelectorValue() {
+    const select = document.getElementById('lang_select');
+    if (select) select.value = currentLang;
+}
+
+async function loadTranslations() {
+    try {
+        const response = await fetch(`_locales/${currentLang}/messages.json`);
+        translations = await response.json();
+        
+        applyTranslations();
+        updateSelectorValue();
+    } catch (error) {
+        console.error(`Ошибка загрузки локализации для языка [${currentLang}]:`, error);
+    }
+}
+
+async function changeLanguage(lang) {
+    currentLang = lang;
+    localStorage.setItem('app_lang', lang);
+    await loadTranslations(); 
+}
+
+// --- Инициализация ---
+document.addEventListener('DOMContentLoaded', () => {
+    loadTranslations();
+
+    const select = document.getElementById('lang_select');
+    select.addEventListener('change', (e) => {
+        changeLanguage(e.target.value);
+    });
+
+});
+
 /* ==================== Состояние ==================== */
 const EXPORT_SIZE = 1024;   // размер скачиваемого PNG/JPG
 const PREVIEW_SIZE = 480;   // размер preview
@@ -166,7 +221,7 @@ async function svgStringToCanvas(svgString, size) {
     const img = new Image();
     await new Promise((resolve, reject) => {
       img.onload = resolve;
-      img.onerror = () => reject(new Error('Не удалось отрисовать SVG'));
+      img.onerror = () => reject(new Error(getTranslation('mess_copySVG_err')));
       img.src = url;
     });
     const canvas = document.createElement('canvas');
@@ -205,9 +260,9 @@ async function downloadSvg() {
     const svg = buildQrSvg(qr, STATE.fgColor);
     const blob = new Blob([svg], { type: 'image/svg+xml;charset=utf-8' });
     triggerDownload(blob, `qr-${stamp()}.svg`);
-    toast('SVG скачан');
+    toast(getTranslation('mess_saveSVG_succes'));
   } catch (e) {
-    toast('Ошибка: ' + e.message, true);
+    toast(getTranslation('mess_saveErr'), true);
   }
 }
 
@@ -215,12 +270,12 @@ async function downloadPng() {
   try {
     const canvas = await renderToCanvas({ size: EXPORT_SIZE, background: null });
     canvas.toBlob((blob) => {
-      if (!blob) return toast('Не удалось создать PNG', true);
+      if (!blob) return toast(getTranslation('mess_saveErr'), true);
       triggerDownload(blob, `qr-${stamp()}.png`);
-      toast('PNG скачан (прозрачный)');
+      toast(getTranslation('mess_savePNG_succes'));
     }, 'image/png');
   } catch (e) {
-    toast('Ошибка: ' + e.message, true);
+    toast(getTranslation('mess_saveErr'), true);
   }
 }
 
@@ -228,12 +283,12 @@ async function downloadJpg() {
   try {
     const canvas = await renderToCanvas({ size: EXPORT_SIZE, background: STATE.bgColor });
     canvas.toBlob((blob) => {
-      if (!blob) return toast('Не удалось создать JPG', true);
+      if (!blob) return toast(getTranslation('mess_saveErr'), true);
       triggerDownload(blob, `qr-${stamp()}.jpg`);
-      toast('JPG скачан');
+      toast(getTranslation('mess_saveJPG_succes'));
     }, 'image/jpeg', 0.92);
   } catch (e) {
-    toast('Ошибка: ' + e.message, true);
+    toast(getTranslation('mess_saveErr'), true);
   }
 }
 
@@ -245,12 +300,12 @@ async function copySvgToClipboard() {
 
     if (navigator.clipboard && window.ClipboardItem) {
       await navigator.clipboard.write([new ClipboardItem({ 'image/svg+xml': blob })]);
-      toast('Изображение скопировано в буфер (векторное)');
+      toast(getTranslation('mess_copySVG_success'));
     } else {
-      toast('Браузер не поддерживает копирование SVG.', true);
+      toast(getTranslation('mess_saveErr'), true);
     }
   } catch (e) {
-    toast('Не удалось скопировать SVG.', true);
+    toast(getTranslation('mess_saveErr'), true);
   }
 }
 
@@ -263,12 +318,12 @@ async function copyPngToClipboard() {
 
     if (navigator.clipboard && window.ClipboardItem) {
       await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
-      toast('Изображение скопировано в буфер (без фона)');
+      toast(getTranslation('mess_copyPNG_success'));
     } else {
-      toast('Браузер не поддерживает копирование.', true);
+      toast(getTranslation('mess_saveErr'), true);
     }
   } catch (e) {
-    toast('Не удалось скопировать.', true);
+    toast(getTranslation('mess_saveErr'), true);
   }
 }
 
@@ -281,12 +336,12 @@ async function copyJpgToClipboard() {
 
     if (navigator.clipboard && window.ClipboardItem) {
       await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
-      toast('Изображение скопировано в буфер (с фоном)');
+      toast(getTranslation('mess_copyJPG_success'));
     } else {
-      toast('Браузер не поддерживает копирование изображений.', true);
+      toast(getTranslation('mess_saveErr'), true);
     }
   } catch (e) {
-    toast('Не удалось скопировать.', true);
+    toast(getTranslation('mess_saveErr'), true);
   }
 }
 
@@ -309,7 +364,6 @@ async function updatePreview() {
     elPlaceholder.hidden = true;
     [elBtnSvg, elBtnPng, elBtnJpg, elBtnCopySvg, elBtnCopyPng, elBtnCopyJpg].forEach((b) => (b.disabled = false));
   } catch (e) {
-    //console.error(e);
   }
 }
 

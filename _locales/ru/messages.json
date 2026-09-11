@@ -1,0 +1,122 @@
+{
+	"tabName": {
+		"message": "MyQR - генератор QR-кодов",
+		"description": "Название вкладки приложения"
+	},
+	"appHeader_name": {
+		"message": "MyQR",
+		"description": "Название приложения в шапке"
+	},
+	"appHeader_description": {
+		"message": "Локальная генерация QR-кодов",
+		"description": "Описание приложения в шапке"
+	},
+	"result_header": {
+		"message": "Результат",
+		"description": "Заголовок раздела 'Результат'"
+	},
+	"result_saveHead": {
+		"message": "Сохранить изображение",
+		"description": "Заголовок сохранения изображения"
+	},
+	"result_copyHead": {
+		"message": "Копировать изображение",
+		"description": "Заголовок копирования изображения"
+	},
+	"result_copyJPG": {
+		"message": "С фоном",
+		"description": "Текст кнопки сохранения / копирования изображения с фоном"
+	},
+	"result_copyPNG": {
+		"message": "Без фона",
+		"description": "Текст кнопки сохранения / копирования изображения без фоном"
+	},
+	"result_copySVG": {
+		"message": "Вектор",
+		"description": "Текст кнопки сохранения / копирования изображения в формате вектора"
+	},
+	"settings_header": {
+		"message": "Настройки",
+		"description": "Заголовок раздела 'Настройки'"
+	},
+	"settings_inputHead": {
+		"message": "Сохранить изображение",
+		"description": "Заголовок ввода данных"
+	},
+	"settings_correctingHead": {
+		"message": "Коррекция ошибок",
+		"description": "Заголовок выбора уровня коррекции ошибок"
+	},
+	"settings_correctingL": {
+		"message": "L – низкая (до 7%)",
+		"description": "Уровня коррекции ошибок 'L'"
+	},
+	"settings_correctingM": {
+		"message": "M – средняя (до 15%)",
+		"description": "Уровня коррекции ошибок 'M'"
+	},
+	"settings_correctingQ": {
+		"message": "Q – высокая (до 25%)",
+		"description": "Уровня коррекции ошибок 'Q'"
+	},
+	"settings_correctingH": {
+		"message": "H – максимальная (до 30%)",
+		"description": "Уровня коррекции ошибок 'H'"
+	},
+	"settings_correctingTip": {
+		"message": "Процент максимально допустимого дефекта изображения (чем больше, тем надёжнее).",
+		"description": "Подсказка о работе коррекции ошибок"
+	},
+	"settings_codeColorHead": {
+		"message": "Цвет QR-кода",
+		"description": "Заголовок выбора цвета QR-кода"
+	},
+	"settings_backgroundColorHead": {
+		"message": "Цвет фона",
+		"description": "Заголовок выбора цвета фона"
+	},
+	"settings_backgroundColorTip": {
+		"message": "Для сохранения и копирования с форном.",
+		"description": "Подсказка о работе отрисовки цвета фона"
+	},
+	"mess_saveErr": {
+		"message": "Ошибка",
+		"description": "Уведомление об ошибке сохранения"
+	},
+	"mess_copySVG_err": {
+		"message": "Не удалось отрисовать SVG",
+		"description": "Уведомление о ошибке рендера SVG"
+	},
+	"mess_saveSVG_succes": {
+		"message": "Сохранён в вектором формате (SVG)",
+		"description": "Уведомление о успешном сохранении SVG"
+	},
+	"mess_savePNG_succes": {
+		"message": "Сохранён без фона (PNG)",
+		"description": "Уведомление о успешном сохранении PNG"
+	},
+	"mess_saveJPG_succes": {
+		"message": "Сохранён с фоном (JPG)",
+		"description": "Уведомление о успешном сохранении JPG"
+	},
+	"mess_copySVG_success": {
+		"message": "Скопировано в вектором формате",
+		"description": "Уведомление о успешном копировани в вектором виде"
+	},
+	"mess_copyPNG_success": {
+		"message": "Скопировано в без фона",
+		"description": "Уведомление о успешном копировани без фона"
+	},
+	"mess_copyJPG_success": {
+		"message": "Скопировано с фоном",
+		"description": "Уведомление о успешном копировани с фоном"
+	},
+	"info_forFolks": {
+		"message": "Сделано для людей 💚",
+		"description": "Комментарий разработчика в блоке информации"
+	},
+	"placeHolder": {
+		"message": "",
+		"description": ""
+	}
+}

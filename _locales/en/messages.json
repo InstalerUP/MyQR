@@ -1,0 +1,122 @@
+{
+	"tabName": {
+		"message": "MyQR - QR Code Generator",
+		"description": "App tab title"
+	},
+	"appHeader_name": {
+		"message": "MyQR",
+		"description": "App name in the header"
+	},
+	"appHeader_description": {
+		"message": "Local QR Code Generation",
+		"description": "App description in the header"
+	},
+	"result_header": {
+		"message": "Result",
+		"description": "'Result' section header"
+	},
+	"result_saveHead": {
+		"message": "Save Image",
+		"description": "Save image header"
+	},
+	"result_copyHead": {
+		"message": "Copy Image",
+		"description": "Copy image header"
+	},
+	"result_copyJPG": {
+		"message": "Solid",
+		"description": "Text for the save/copy image with background button"
+	},
+	"result_copyPNG": {
+		"message": "Transparent",
+		"description": "Text for the save/copy image without background button"
+	},
+	"result_copySVG": {
+		"message": "Vector",
+		"description": "Text for the save/copy image in vector format button"
+	},
+	"settings_header": {
+		"message": "Settings",
+		"description": "'Settings' section header"
+	},
+	"settings_inputHead": {
+		"message": "Save Image",
+		"description": "Data input header"
+	},
+	"settings_correctingHead": {
+		"message": "Error Correction",
+		"description": "Error correction level selection header"
+	},
+	"settings_correctingL": {
+		"message": "L – Low (up to 7%)",
+		"description": "Error correction level 'L'"
+	},
+	"settings_correctingM": {
+		"message": "M – Medium (up to 15%)",
+		"description": "Error correction level 'M'"
+	},
+	"settings_correctingQ": {
+		"message": "Q – High (up to 25%)",
+		"description": "Error correction level 'Q'"
+	},
+	"settings_correctingH": {
+		"message": "H – Maximum (up to 30%)",
+		"description": "Error correction level 'H'"
+	},
+	"settings_correctingTip": {
+		"message": "The maximum allowable percentage of image defects (higher means more reliable).",
+		"description": "Tooltip explaining how error correction works"
+	},
+	"settings_codeColorHead": {
+		"message": "QR Code Color",
+		"description": "QR code color selection header"
+	},
+	"settings_backgroundColorHead": {
+		"message": "Background Color",
+		"description": "Background color selection header"
+	},
+	"settings_backgroundColorTip": {
+		"message": "For saving and copying with background.",
+		"description": "Tooltip explaining how background color rendering works"
+	},
+	"mess_saveErr": {
+		"message": "Error",
+		"description": "Save error notification"
+	},
+	"mess_copySVG_err": {
+		"message": "Failed to render SVG",
+		"description": "SVG rendering error notification"
+	},
+	"mess_saveSVG_succes": {
+		"message": "Saved in vector format (SVG)",
+		"description": "Successful SVG save notification"
+	},
+	"mess_savePNG_succes": {
+		"message": "Saved without background (PNG)",
+		"description": "Successful PNG save notification"
+	},
+	"mess_saveJPG_succes": {
+		"message": "Saved with background (JPG)",
+		"description": "Successful JPG save notification"
+	},
+	"mess_copySVG_success": {
+		"message": "Copied in vector format",
+		"description": "Successful vector copy notification"
+	},
+	"mess_copyPNG_success": {
+		"message": "Copied without background",
+		"description": "Successful transparent copy notification"
+	},
+	"mess_copyJPG_success": {
+		"message": "Copied with background",
+		"description": "Successful with-background copy notification"
+	},
+	"info_forFolks": {
+		"message": "Made for people 💚",
+		"description": "Developer comment in the info block"
+	},
+	"placeHolder": {
+		"message": "",
+		"description": ""
+	}
+}
