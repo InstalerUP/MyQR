@@ -1,6 +1,6 @@
 'use strict';
 
-/* ==================== Перевод ==================== */
+/* ==================== Translation ==================== */
 let translations = {};
 let currentLang = localStorage.getItem('app_lang') || 'ru';
 
@@ -44,7 +44,7 @@ async function changeLanguage(lang) {
     await loadTranslations(); 
 }
 
-// --- Инициализация ---
+// --- Init ---
 document.addEventListener('DOMContentLoaded', () => {
     loadTranslations();
 
@@ -55,10 +55,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
-/* ==================== Состояние ==================== */
-const EXPORT_SIZE = 1024;   // размер скачиваемого PNG/JPG
-const PREVIEW_SIZE = 480;   // размер preview
-const QUIET_ZONE = 4;       // стандартный отступ (в модулях)
+/* ==================== State ==================== */
+const EXPORT_SIZE = 1024;   // size PNG/JPG
+const PREVIEW_SIZE = 480;   // size preview
+const QUIET_ZONE = 4;       // default space
 
 const STATE = {
   text: 'https://example.com',
@@ -79,7 +79,6 @@ const PRESET_BG = [
   '#fae8ff'
 ];
 
-/* ==================== DOM ==================== */
 const $ = (id) => document.getElementById(id);
 
 const elText = $('text-input');
@@ -99,7 +98,6 @@ const elBtnCopyPng = $('copy-png');
 const elBtnCopyJpg = $('copy-jpg');
 const elToast = $('toast');
 
-/* ==================== Маленькие помощники ==================== */
 function debounce(fn, ms) {
   let t;
   return (...args) => {
@@ -132,7 +130,7 @@ function stamp() {
   return new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-');
 }
 
-/* ==================== Свачи цветов ==================== */
+/* ==================== Color Swatches ==================== */
 function buildSwatches(container, colors, input, onChange) {
   colors.forEach((color) => {
     const btn = document.createElement('button');
@@ -162,19 +160,16 @@ function syncSwatchFromPicker(container, color) {
   });
 }
 
-/* ==================== QR-логика ==================== */
+/* ==================== QR logic ==================== */
 function buildQr(text, ecLevel) {
-  const qr = qrcode(0, ecLevel); // type 0 — автоопределение версии
-  // Включаем поддержку кириллицы/UTF-8 (по умолчанию библиотека режет до 1 байта)
+  const qr = qrcode(0, ecLevel); 
   qrcode.stringToBytes = qrcode.stringToBytesFuncs['UTF-8'];
   qr.addData(text, 'Byte');
   qr.make();
   return qr;
 }
 
-/**
- * Строит SVG строку QR-кода.
- */
+/* ==================== Create SVG ==================== */
 function buildQrSvg(qr, fgColor) {
   const count = qr.getModuleCount();
   const total = count + QUIET_ZONE * 2;
@@ -213,7 +208,7 @@ function buildQrSvg(qr, fgColor) {
   return parts.join('');
 }
 
-/* ==================== Рендер в canvas ==================== */
+/* ==================== Canvas render ==================== */
 async function svgStringToCanvas(svgString, size) {
   const blob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
   const url = URL.createObjectURL(blob);
@@ -236,7 +231,7 @@ async function svgStringToCanvas(svgString, size) {
   }
 }
 
-/* ==================== Экспорт ==================== */
+/* ==================== Export ==================== */
 async function renderToCanvas(opts = {}) {
   const { size = EXPORT_SIZE, background = null } = opts;
   const qr = buildQr(STATE.text, STATE.ecLevel);
@@ -371,7 +366,7 @@ const renderDebounced = debounce(() => {
   updatePreview();
 }, 200);
 
-/* ==================== События ==================== */
+/* ==================== Events ==================== */
 elText.addEventListener('input', () => {
   STATE.text = elText.value;
   renderDebounced();
@@ -400,7 +395,7 @@ elBtnCopySvg.addEventListener('click', copySvgToClipboard);
 elBtnCopyPng.addEventListener('click', copyPngToClipboard);
 elBtnCopyJpg.addEventListener('click', copyJpgToClipboard);
 
-/* ==================== Инициализация ==================== */
+/* ==================== Init QR ==================== */
 function init() {
   const ecLabels = {
     L: 'L',
@@ -417,7 +412,7 @@ function init() {
     STATE.bgColor = color;
   });
 
-  // активный свач по умолчанию
+  // Default statch
   const activeFg = elFgSwatches.querySelector(`[data-color="${STATE.fgColor}"]`);
   if (activeFg) activeFg.classList.add('active');
   const activeBg = elBgSwatches.querySelector(`[data-color="${STATE.bgColor}"]`);
