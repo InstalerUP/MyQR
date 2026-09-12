@@ -88,6 +88,7 @@ const elFgSwatches = $('fg-swatches');
 const elBgSwatches = $('bg-swatches');
 const elFgColor = $('fg-color');
 const elBgColor = $('bg-color');
+const elPreviewStage = $('preview-stage');
 const elPreviewImg = $('preview-img');
 const elPlaceholder = $('preview-placeholder');
 const elBtnSvg = $('download-svg');
@@ -97,6 +98,11 @@ const elBtnCopySvg = $('copy-svg');
 const elBtnCopyPng = $('copy-png');
 const elBtnCopyJpg = $('copy-jpg');
 const elToast = $('toast');
+
+function syncPreviewBackground() {
+  elPreviewStage.style.backgroundColor = STATE.bgColor;
+}
+
 
 function debounce(fn, ms) {
   let t;
@@ -386,6 +392,7 @@ elFgColor.addEventListener('input', () => {
 elBgColor.addEventListener('input', () => {
   STATE.bgColor = elBgColor.value;
   syncSwatchFromPicker(elBgSwatches, STATE.bgColor);
+  syncPreviewBackground();
 });
 
 elBtnSvg.addEventListener('click', downloadSvg);
@@ -410,6 +417,7 @@ function init() {
   });
   buildSwatches(elBgSwatches, PRESET_BG, elBgColor, (color) => {
     STATE.bgColor = color;
+    syncPreviewBackground();
   });
 
   // Default statch
@@ -419,6 +427,7 @@ function init() {
   if (activeBg) activeBg.classList.add('active');
 
   renderDebounced();
+  syncPreviewBackground();
 }
 
 init();
