@@ -231,20 +231,18 @@ body {
   width: 28px;
   height: 28px;
   border-radius: 8px;
-  border: 2px dashed var(--border);
+  border: 2px var(--border);
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   transition: border-color 0.15s;
-  background:
-    linear-gradient(45deg, #ccc 25%, transparent 25%),
-    linear-gradient(-45deg, #ccc 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, #ccc 75%),
-    linear-gradient(-45deg, transparent 75%, #ccc 75%);
-  background-size: 8px 8px;
-  background-position: 0 0, 0 4px, 4px -4px, -4px 0;
-  background-color: #fff;
+  background: linear-gradient(
+    15deg,
+    #a79e9e 0%,
+    #d8ba9f 70%,
+    #fce683 100%
+  );
 }
 
 .color-pick:hover {

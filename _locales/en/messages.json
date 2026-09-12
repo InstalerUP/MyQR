@@ -40,7 +40,7 @@
 		"description": "'Settings' section header"
 	},
 	"settings_inputHead": {
-		"message": "Save Image",
+		"message": "Text",
 		"description": "Data input header"
 	},
 	"settings_correctingHead": {

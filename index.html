@@ -13,7 +13,7 @@
         <tr>
           <td>
             <h1 class="logo" data-i18n="appHeader_name">MyQR</h1>
-            <p class="tagline" data-i18n="appHeader_description">Локальная генерация QR-кодов</p>
+            <p class="tagline" data-i18n="appHeader_description">Local QR Code Generation</p>
           </td>
           <td id="lang-list">
             <select id="lang_select" class="input select" style="width: auto;">
@@ -30,65 +30,73 @@
     
     <!-- Result -->
     <section class="card preview" aria-labelledby="preview-title">
-      <h2 id="preview-title" class="card-title" data-i18n="result_header">Результат</h2>
+      <h2 id="preview-title" class="card-title" data-i18n="result_header">Result</h2>
       <div class="preview-stage checkerboard" id="preview-stage">
         <img id="preview-img" alt="Сгенерированный QR-код" draggable="false" hidden />
       </div>
-      <span class="label" data-i18n="result_saveHead">Сохранить изображение</span>
+      <span class="label" data-i18n="result_saveHead">Save Image</span>
       <div class="downloads">
-        <button type="button" id="download-jpg" class="btn btn-outline" data-i18n="result_copyJPG">JPG</button>
-        <button type="button" id="download-png" class="btn btn-outline" data-i18n="result_copyPNG">PNG</button>
-        <button type="button" id="download-svg" class="btn btn-outline" data-i18n="result_copySVG">SVG</button>
+        <button type="button" id="download-jpg" class="btn btn-outline" data-i18n="result_copyJPG">Solid</button>
+        <button type="button" id="download-png" class="btn btn-outline" data-i18n="result_copyPNG">Transparent</button>
+        <button type="button" id="download-svg" class="btn btn-outline" data-i18n="result_copySVG">Vector</button>
       </div>
-      <span class="label" data-i18n="result_copyHead">Копировать изображение</span>
+      <span class="label" data-i18n="result_copyHead">Copy Image</span>
       <div class="downloads">
-        <button type="button" id="copy-jpg" class="btn btn-outline" data-i18n="result_copyJPG">С фоном</button>
-        <button type="button" id="copy-png" class="btn btn-outline" data-i18n="result_copyPNG">Без фона</button>
-        <button type="button" id="copy-svg" class="btn btn-outline" data-i18n="result_copySVG">Вектор</button>
+        <button type="button" id="copy-jpg" class="btn btn-outline" data-i18n="result_copyJPG">Solid</button>
+        <button type="button" id="copy-png" class="btn btn-outline" data-i18n="result_copyPNG">Transparent</button>
+        <button type="button" id="copy-svg" class="btn btn-outline" data-i18n="result_copySVG">Vector</button>
       </div>
     </section>
     
     <!-- Settings -->
     <section class="card controls" aria-labelledby="controls-title">
-      <h2 id="controls-title" class="card-title" data-i18n="settings_header">Настройки</h2>
+      <h2 id="controls-title" class="card-title" data-i18n="settings_header">Settings</h2>
 
       <div class="field">
-        <label class="label" for="text-input" data-i18n="settings_inputHead">Текст или ссылка</label>
+        <label class="label" for="text-input" data-i18n="settings_inputHead">Text</label>
         <textarea id="text-input" class="input textarea" rows="5" autofocus>https://example.com</textarea>
       </div>
 
       <div class="field">
-        <label class="label" for="ec-level" data-i18n="settings_correctingHead">Коррекция ошибок</label>
+        <label class="label" for="ec-level" data-i18n="settings_correctingHead">Error Correction</label>
         <div class="select-wrap">
           <select id="ec-level" class="input select">
-            <option value="L" data-i18n="settings_correctingL">L – низкая (до 7%)</option>
-            <option value="M" data-i18n="settings_correctingM" selected>M – средняя (до 15%)</option>
-            <option value="Q" data-i18n="settings_correctingQ">Q – высокая (до 25%)</option>
-            <option value="H" data-i18n="settings_correctingH">H – максимальная (до 30%)</option>
+            <option value="L" data-i18n="settings_correctingL">L – Low (up to 7%)</option>
+            <option value="M" data-i18n="settings_correctingM" selected>M – Medium (up to 15%)</option>
+            <option value="Q" data-i18n="settings_correctingQ">Q – High (up to 25%)</option>
+            <option value="H" data-i18n="settings_correctingH">H – Maximum (up to 30%)</option>
           </select>
         </div>
-        <p class="hint" id="ec-hint" data-i18n="settings_correctingTip">Процент максимально допустимого дефекта изображения (чем больше, тем надёжнее).</p>
+        <p class="hint" id="ec-hint" data-i18n="settings_correctingTip">The maximum allowable percentage of image defects (higher means more reliable).</p>
+      </div>
+      <div class="field">
+        <legend class="label" data-i18n="settings_codeColorHead">QR Code Color</legend>
+        <table style="width: 100%;">
+          <tr>
+            <td>
+              <div class="color-row">
+                <div class="swatches" id="fg-swatches"></div>
+              </div>
+            </td>
+            <td style="text-align: right;"><input type="color" id="fg-color" value="#0f172a"/></td>
+          </tr>
+        </table>
+
       </div>
 
       <div class="field">
-        <legend class="label" data-i18n="settings_codeColorHead">Цвет QR-кода</legend>
-        <div class="color-row">
-          <div class="swatches" id="fg-swatches"></div>
-          <label class="color-pick" title="Свой цвет – вся палитра">
-            <input type="color" id="fg-color" value="#0f172a" />
-          </label>
-        </div>
-      </div>
-
-      <div class="field">
-        <legend class="label" data-i18n="settings_backgroundColorHead">Цвет фона</legend>
-        <div class="color-row">
-          <div class="swatches" id="bg-swatches"></div>
-          <label class="color-pick" title="Свой цвет – вся палитра">
-            <input type="color" id="bg-color" value="#ffffff" />
-          </label>
-        </div>
-        <p class="hint" id="ec-hint" data-i18n="settings_backgroundColorTip">Фон используется при сохранении и копировании с форном.</p>
+        <legend class="label" data-i18n="settings_backgroundColorHead">Background Color</legend>
+        <table style="width: 100%;">
+          <tr>
+            <td>
+              <div class="color-row">
+                <div class="swatches" id="bg-swatches"></div>
+              </div>
+            </td>
+            <td style="text-align: right;"><input type="color" id="bg-color" value="#ffffff" /></td>
+          </tr>
+        </table>
+        <p class="hint" id="ec-hint" data-i18n="settings_backgroundColorTip">For saving and copying with background.</p>
       </div>
 
     </section>

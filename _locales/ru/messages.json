@@ -40,7 +40,7 @@
 		"description": "Заголовок раздела 'Настройки'"
 	},
 	"settings_inputHead": {
-		"message": "Сохранить изображение",
+		"message": "Текст",
 		"description": "Заголовок ввода данных"
 	},
 	"settings_correctingHead": {
