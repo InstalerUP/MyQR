@@ -1,0 +1,3 @@
+INFO 2026-09-13 21:54:25,434 Auth info was exported to ./.tmp/auth_info.json D:\a\neutralinojs\neutralinojs\api\debug\debug.cpp:14 Eugene@EUGENE-PC
+ERROR 2026-09-13 21:54:25,774 NE_RS_UNBLDRE: Unable to load application resource file /neutralino.js D:\a\neutralinojs\neutralinojs\api\debug\debug.cpp:17 Eugene@EUGENE-PC
+ERROR 2026-09-13 21:54:25,809 NE_RS_UNBLDRE: Unable to load application resource file /favicon.ico D:\a\neutralinojs\neutralinojs\api\debug\debug.cpp:17 Eugene@EUGENE-PC
