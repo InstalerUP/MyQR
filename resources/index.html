@@ -1,111 +1,123 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title data-i18n="tabName">MyQR - QR-code generator</title>
-  <link rel="stylesheet" href="css/style.css" />
-</head>
-<body>
-  <header class="header">
-    <div class="container header-inner">
-      <table class="header-table">
-        <tr>
-          <td>
-            <h1 class="logo" data-i18n="appHeader_name">MyQR</h1>
-            <p class="tagline" data-i18n="appHeader_description">Local QR Code Generation</p>
-          </td>
-          <td id="lang-list">
-            <select id="lang_select" class="input select" style="width: auto;">
-              <option value="en">English</option>
-              <option value="ru">Russian</option>
-            </select>
-          </td>
-        </tr>
-      </table>
-    </div>
-  </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title data-i18n="tabName">MyQR - QR-code generator</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="container header-inner">
+        <table class="header-table">
+          <tr>
+            <td>
+              <h1 class="logo" data-i18n="appHeader_name">MyQR</h1>
+              <p class="tagline" data-i18n="appHeader_description">Local QR Code Generation</p>
+            </td>
+            <td id="lang-list">
+              <select id="lang_select" class="input select" style="width: auto;">
+                <option value="en">English</option>
+                <option value="ru">Russian</option>
+              </select>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </header>
 
-  <main class="container layout">
-    
-    <!-- Result -->
-    <section class="card preview" aria-labelledby="preview-title">
-      <h2 id="preview-title" class="card-title" data-i18n="result_header">Result</h2>
-      <div class="preview-stage checkerboard" id="preview-stage">
-        <img id="preview-img" alt="Сгенерированный QR-код" draggable="false" hidden />
-      </div>
-      <span class="label" data-i18n="result_saveHead">Save Image</span>
-      <div class="downloads">
-        <button type="button" id="download-jpg" class="btn btn-outline" data-i18n="result_copyJPG">Solid</button>
-        <button type="button" id="download-png" class="btn btn-outline" data-i18n="result_copyPNG">Transparent</button>
-        <button type="button" id="download-svg" class="btn btn-outline" data-i18n="result_copySVG">Vector</button>
-      </div>
-      <span class="label" data-i18n="result_copyHead">Copy Image</span>
-      <div class="downloads">
-        <button type="button" id="copy-jpg" class="btn btn-outline" data-i18n="result_copyJPG">Solid</button>
-        <button type="button" id="copy-png" class="btn btn-outline" data-i18n="result_copyPNG">Transparent</button>
-        <button type="button" id="copy-svg" class="btn btn-outline" data-i18n="result_copySVG">Vector</button>
-      </div>
-    </section>
-    
-    <!-- Settings -->
-    <section class="card controls" aria-labelledby="controls-title">
-      <h2 id="controls-title" class="card-title" data-i18n="settings_header">Settings</h2>
-
-      <div class="field">
-        <label class="label" for="text-input" data-i18n="settings_inputHead">Text</label>
-        <textarea id="text-input" class="input textarea" rows="5" autofocus>https://example.com</textarea>
-      </div>
-
-      <div class="field">
-        <label class="label" for="ec-level" data-i18n="settings_correctingHead">Error Correction</label>
-        <div class="select-wrap">
-          <select id="ec-level" class="input select">
-            <option value="L" data-i18n="settings_correctingL">L – Low (up to 7%)</option>
-            <option value="M" data-i18n="settings_correctingM" selected>M – Medium (up to 15%)</option>
-            <option value="Q" data-i18n="settings_correctingQ">Q – High (up to 25%)</option>
-            <option value="H" data-i18n="settings_correctingH">H – Maximum (up to 30%)</option>
-          </select>
+    <main class="container layout">
+      
+      <!-- Result -->
+      <section class="card preview" aria-labelledby="preview-title">
+        <h2 id="preview-title" class="card-title" data-i18n="result_header">Result</h2>
+        <div class="preview-stage checkerboard" id="preview-stage">
+          <img id="preview-img" alt="Сгенерированный QR-код" draggable="false" hidden />
         </div>
-        <p class="hint" id="ec-hint" data-i18n="settings_correctingTip">The maximum allowable percentage of image defects (higher means more reliable).</p>
-      </div>
-      <div class="field">
-        <legend class="label" data-i18n="settings_codeColorHead">QR Code Color</legend>
-        <table style="width: 100%;">
-          <tr>
-            <td>
-              <div class="color-row">
-                <div class="swatches" id="fg-swatches"></div>
-              </div>
-            </td>
-            <td style="text-align: right;"><input type="color" id="fg-color" value="#0f172a"/></td>
-          </tr>
-        </table>
+        <span class="label" data-i18n="result_saveHead">Save Image</span>
+        <div class="downloads">
+          <button type="button" id="download-jpg" class="btn btn-outline" data-i18n="result_copyJPG">Solid</button>
+          <button type="button" id="download-png" class="btn btn-outline" data-i18n="result_copyPNG">Transparent</button>
+          <button type="button" id="download-svg" class="btn btn-outline" data-i18n="result_copySVG">Vector</button>
+        </div>
+        <span class="label" data-i18n="result_copyHead">Copy Image</span>
+        <div class="downloads">
+          <button type="button" id="copy-jpg" class="btn btn-outline" data-i18n="result_copyJPG">Solid</button>
+          <button type="button" id="copy-png" class="btn btn-outline" data-i18n="result_copyPNG">Transparent</button>
+          <button type="button" id="copy-svg" class="btn btn-outline" data-i18n="result_copySVG">Vector</button>
+        </div>
+      </section>
+      
+      <!-- Settings -->
+      <section class="card controls" aria-labelledby="controls-title">
+        <h2 id="controls-title" class="card-title" data-i18n="settings_header">Settings</h2>
 
-      </div>
+        <div class="field">
+          <label class="label" for="text-input" data-i18n="settings_inputHead">Text</label>
+          <textarea id="text-input" class="input textarea" rows="5" autofocus>https://example.com</textarea>
+        </div>
 
-      <div class="field">
-        <legend class="label" data-i18n="settings_backgroundColorHead">Background Color</legend>
-        <table style="width: 100%;">
-          <tr>
-            <td>
-              <div class="color-row">
-                <div class="swatches" id="bg-swatches"></div>
-              </div>
-            </td>
-            <td style="text-align: right;"><input type="color" id="bg-color" value="#ffffff" /></td>
-          </tr>
-        </table>
-        <p class="hint" id="ec-hint" data-i18n="settings_backgroundColorTip">For saving and copying with background.</p>
-      </div>
+        <div class="field">
+          <label class="label" for="ec-level" data-i18n="settings_correctingHead">Error Correction</label>
+          <div class="select-wrap">
+            <select id="ec-level" class="input select">
+              <option value="L" data-i18n="settings_correctingL">L – Low (up to 7%)</option>
+              <option value="M" data-i18n="settings_correctingM" selected>M – Medium (up to 15%)</option>
+              <option value="Q" data-i18n="settings_correctingQ">Q – High (up to 25%)</option>
+              <option value="H" data-i18n="settings_correctingH">H – Maximum (up to 30%)</option>
+            </select>
+          </div>
+          <p class="hint" id="ec-hint" data-i18n="settings_correctingTip">The maximum allowable percentage of image defects (higher means more reliable).</p>
+        </div>
+        <div class="field">
+          <legend class="label" data-i18n="settings_codeColorHead">QR Code Color</legend>
+          <table style="width: 100%;">
+            <tr>
+              <td>
+                <div class="color-row">
+                  <div class="swatches" id="fg-swatches"></div>
+                </div>
+              </td>
+              <td style="text-align: right;"><input type="color" id="fg-color" value="#0f172a"/></td>
+            </tr>
+          </table>
 
-    </section>
-  </main>
+        </div>
 
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+        <div class="field">
+          <legend class="label" data-i18n="settings_backgroundColorHead">Background Color</legend>
+          <table style="width: 100%;">
+            <tr>
+              <td>
+                <div class="color-row">
+                  <div class="swatches" id="bg-swatches"></div>
+                </div>
+              </td>
+              <td style="text-align: right;"><input type="color" id="bg-color" value="#ffffff" /></td>
+            </tr>
+          </table>
+          <p class="hint" id="ec-hint" data-i18n="settings_backgroundColorTip">For saving and copying with background.</p>
+        </div>
 
-  <script src="neutralino.js"></script>
-  <script src="js/qrcode.min.js"></script>
-  <script src="js/main.js"></script>
-</body>
+      </section>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script src="neutralino.js"></script>
+    <script src="js/qrcode.min.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+  <footer>
+    <table id="footer-table">
+      <tr>
+        <td><p><b>MyQR</b></p><p>Сделано для людей 💚</p></td>
+        <td style="text-align: right;">
+          <a class="urlLink" data-url="https://github.com/InstalerUP/WebMatch">
+            <img src="img/github_logo_w.png" style="height: 24px;">
+          </a>
+        </td>
+      </tr>
+    </table>
+  </footer>
 </html>

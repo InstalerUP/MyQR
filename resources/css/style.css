@@ -8,6 +8,7 @@
   --primary: #0f172a;
   --primary-hover: #1e293b;
   --accent: #2563eb;
+  --footer: #1d1d1d;
   --radius: 14px;
   --shadow: 0 1px 3px rgba(15, 23, 42, 0.08), 0 4px 16px rgba(15, 23, 42, 0.06);
 }
@@ -381,13 +382,22 @@ body {
   background: #dc2626;
 }
 
-
-.footer {
+/* .footer {
   margin-top: auto;
-  padding: 20px 0;
+  padding: 10px 0;
   text-align: center;
   color: var(--muted);
   font-size: 0.8rem;
   border-top: 1px solid var(--border);
   background: var(--card);
+} */
+
+
+#footer-table {
+  width: 800px;
+  background: var(--footer);
+  color: var(--card);
+  font-size: 0.8rem;
+  padding-left: 42px;
+  padding-right: 42px;
 }
