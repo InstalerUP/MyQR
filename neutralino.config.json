@@ -4,7 +4,7 @@
   "version": "0.9.0",
   "defaultMode": "window",
   "port": 0,
-  "documentRoot": "/",
+  "documentRoot": "/resources/",
   "url": "/index.html",
   "enableServer": true,
   "enableNativeAPI": true,
@@ -23,14 +23,14 @@
   "modes": {
     "window": {
       "title": "MyQR",
-      "width": 800,
-      "height": 500,
+      "width": 1280,
+      "height": 960,
       "minWidth": 400,
       "minHeight": 200,
       "center": true,
       "fullScreen": false,
       "alwaysOnTop": false,
-      "icon": "/resources/icons/appIcon.png",
+      "icon": "/resources/img/appIcon.png",
       "enableInspector": false,
       "borderless": false,
       "maximize": false,
@@ -63,9 +63,10 @@
   },
   "cli": {
     "binaryName": "MyQR",
-    "resourcesPath": "/",
+    "resourcesPath": "/resources/",
     "extensionsPath": "/extensions/",
-    "clientLibrary": "/js/neutralino.js",
+    "clientLibrary": "/resources/js/neutralino.js",
+	"resourcesExclude": "(\\.tmp|\\.git|dist|neutralino\\.config\\.json)",
     "binaryVersion": "6.9.0",
     "clientVersion": "6.9.0"
   }
