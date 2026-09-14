@@ -103,6 +103,7 @@ body {
   padding-top: 24px;
   padding-bottom: 40px;
   align-items: start;
+  flex: 1 0 auto;
 }
 
 @media (max-width: 860px) {
@@ -340,6 +341,14 @@ body {
   background-position: 0 0, 0 10px, 10px -10px, -10px 0;
   background-color: #ffffff;
 }
+
+img{
+  -webkit-user-drag: none;
+  user-drag: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
 
 #preview-img {
   max-width: 100%;

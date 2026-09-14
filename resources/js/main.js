@@ -402,6 +402,7 @@ elBtnCopySvg.addEventListener('click', copySvgToClipboard);
 elBtnCopyPng.addEventListener('click', copyPngToClipboard);
 elBtnCopyJpg.addEventListener('click', copyJpgToClipboard);
 
+
 /* ==================== Init QR ==================== */
 function init() {
   const ecLabels = {
