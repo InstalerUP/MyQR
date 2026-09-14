@@ -10,11 +10,67 @@ if (typeof window.Neutralino !== 'undefined' && window.NL_PORT) {
 }
 
 /* ==================== Translation ==================== */
+const SETTINGS_KEY = 'app_lang';
+const DEFAULT_LANG = 'ru';
+
 let translations = {};
-let currentLang = localStorage.getItem('app_lang') || 'ru';
+let currentLang = DEFAULT_LANG;
 
 function getTranslation(key) {
     return translations[key]?.message || key;
+}
+
+/* ==================== Persistent settings ==================== */
+/*
+  Neutralino.storage хранит настройки в папке данных приложения и не зависит
+  от порта локального сервера. localStorage оставлен как резервный вариант
+  (в собранном приложении он бесполезен: порт при каждом запуске новый,
+  поэтому origin — и хранилище вместе с ним — каждый раз другой).
+*/
+function hasNativeStorage() {
+    return typeof window.Neutralino !== 'undefined' &&
+           !!window.Neutralino.storage &&
+           !!window.NL_PORT;
+}
+
+async function readSetting(key) {
+    if (hasNativeStorage()) {
+        try {
+            const value = await Neutralino.storage.getData(key);
+            if (value) return value;
+        } catch (e) {
+            // записи ещё нет — это нормально, пробуем резервное хранилище
+        }
+    }
+
+    try {
+        return localStorage.getItem(key);
+    } catch (e) {
+        return null;
+    }
+}
+
+async function writeSetting(key, value) {
+    if (hasNativeStorage()) {
+        try {
+            await Neutralino.storage.setData(key, value);
+        } catch (e) {
+            console.warn(`Не удалось сохранить настройку "${key}":`, e);
+        }
+    }
+
+    try {
+        localStorage.setItem(key, value);
+    } catch (e) {
+        // localStorage может быть недоступен — игнорируем
+    }
+}
+
+/* Список доступных языков берём из самого селектора */
+function availableLangs() {
+    const select = document.getElementById('lang_select');
+    if (!select) return [DEFAULT_LANG];
+    return Array.from(select.options).map((option) => option.value);
 }
 
 function applyTranslations() {
@@ -47,32 +103,46 @@ async function loadTranslations() {
     }
 }
 
+/* Читает сохранённый язык и применяет локализацию */
+async function initLanguage() {
+    const saved = await readSetting(SETTINGS_KEY);
+    currentLang = availableLangs().includes(saved) ? saved : DEFAULT_LANG;
+    await loadTranslations();
+}
+
 async function changeLanguage(lang) {
     currentLang = lang;
-    localStorage.setItem('app_lang', lang);
+    await writeSetting(SETTINGS_KEY, lang);
     await loadTranslations(); 
 }
 
 // --- Init ---
 document.addEventListener('DOMContentLoaded', () => {
-    loadTranslations();
+    initLanguage();
 
     const select = document.getElementById('lang_select');
-    select.addEventListener('change', (e) => {
-        changeLanguage(e.target.value);
-    });
-
-});
-
-Neutralino.init();
-
-Neutralino.events.on("ready", () => {
-    // Находим наш элемент и вставляем в него текст с авто-версией
-    const versionLabel = document.getElementById("footer-appName");
-    if (versionLabel) {
-        versionLabel.innerHTML = `<b>MyQR</b> | v${NL_APPVERSION}`;
+    if (select) {
+        select.addEventListener('change', (e) => {
+            changeLanguage(e.target.value);
+        });
     }
+
 });
+
+/* Версия приложения в подвале — после готовности Neutralino */
+if (typeof window.Neutralino !== 'undefined') {
+    try {
+        Neutralino.events.on("ready", () => {
+            // Находим наш элемент и вставляем в него текст с авто-версией
+            const versionLabel = document.getElementById("footer-appName");
+            if (versionLabel) {
+                versionLabel.innerHTML = `<b>MyQR</b> | v${window.NL_APPVERSION}`;
+            }
+        });
+    } catch (e) {
+        console.warn('Neutralino ready handler failed', e);
+    }
+}
 
 
 /* ==================== State ==================== */
