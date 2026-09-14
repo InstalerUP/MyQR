@@ -17,8 +17,8 @@
                 <img src="img/app_logo_w.png" id="header-logo">
               </td>
               <td>
-                <h1 class="logo" data-i18n="appHeader_name">MyQR</h1>
-                <p class="tagline" data-i18n="appHeader_description">Local QR Code Generation</p>
+                <h1 class="logo no-select" data-i18n="appHeader_name">MyQR</h1>
+                <p class="tagline no-select" data-i18n="appHeader_description">Local QR Code Generation</p>
               </td>
             </td>
             <td id="lang-list">
@@ -36,17 +36,17 @@
       
       <!-- Result -->
       <section class="card preview" aria-labelledby="preview-title">
-        <h2 id="preview-title" class="card-title" data-i18n="result_header">Result</h2>
+        <h2 id="preview-title" class="card-title no-select" data-i18n="result_header">Result</h2>
         <div class="preview-stage checkerboard" id="preview-stage">
-          <img id="preview-img" alt="Сгенерированный QR-код" draggable="false" hidden />
+          <img id="preview-img" draggable="false" hidden />
         </div>
-        <span class="label" data-i18n="result_saveHead">Save Image</span>
+        <span class="label no-select" data-i18n="result_saveHead">Save Image</span>
         <div class="downloads">
           <button type="button" id="download-jpg" class="btn btn-outline" data-i18n="result_copyJPG">Solid</button>
           <button type="button" id="download-png" class="btn btn-outline" data-i18n="result_copyPNG">Transparent</button>
           <button type="button" id="download-svg" class="btn btn-outline" data-i18n="result_copySVG">Vector</button>
         </div>
-        <span class="label" data-i18n="result_copyHead">Copy Image</span>
+        <span class="label no-select" data-i18n="result_copyHead">Copy Image</span>
         <div class="downloads">
           <button type="button" id="copy-jpg" class="btn btn-outline" data-i18n="result_copyJPG">Solid</button>
           <button type="button" id="copy-png" class="btn btn-outline" data-i18n="result_copyPNG">Transparent</button>
@@ -56,15 +56,15 @@
       
       <!-- Settings -->
       <section class="card controls" aria-labelledby="controls-title">
-        <h2 id="controls-title" class="card-title" data-i18n="settings_header">Settings</h2>
+        <h2 id="controls-title" class="card-title no-select" data-i18n="settings_header">Settings</h2>
 
         <div class="field">
-          <label class="label" for="text-input" data-i18n="settings_inputHead">Text</label>
+          <label class="label no-select" for="text-input" data-i18n="settings_inputHead">Text</label>
           <textarea id="text-input" class="input textarea" rows="5" autofocus>https://example.com</textarea>
         </div>
 
         <div class="field">
-          <label class="label" for="ec-level" data-i18n="settings_correctingHead">Error Correction</label>
+          <label class="label no-select" for="ec-level" data-i18n="settings_correctingHead">Error Correction</label>
           <div class="select-wrap">
             <select id="ec-level" class="input select">
               <option value="L" data-i18n="settings_correctingL">L – Low (up to 7%)</option>
@@ -73,10 +73,10 @@
               <option value="H" data-i18n="settings_correctingH">H – Maximum (up to 30%)</option>
             </select>
           </div>
-          <p class="hint" id="ec-hint" data-i18n="settings_correctingTip">The maximum allowable percentage of image defects (higher means more reliable).</p>
+          <p class="hint no-select" id="ec-hint" data-i18n="settings_correctingTip">The maximum allowable percentage of image defects (higher means more reliable).</p>
         </div>
         <div class="field">
-          <legend class="label" data-i18n="settings_codeColorHead">QR Code Color</legend>
+          <legend class="label no-select" data-i18n="settings_codeColorHead">QR Code Color</legend>
           <table style="width: 100%;">
             <tr>
               <td>
@@ -91,7 +91,7 @@
         </div>
 
         <div class="field">
-          <legend class="label" data-i18n="settings_backgroundColorHead">Background Color</legend>
+          <legend class="label no-select" data-i18n="settings_backgroundColorHead">Background Color</legend>
           <table style="width: 100%;">
             <tr>
               <td>
@@ -102,7 +102,7 @@
               <td style="text-align: right;"><input type="color" id="bg-color" value="#ffffff" /></td>
             </tr>
           </table>
-          <p class="hint" id="ec-hint" data-i18n="settings_backgroundColorTip">For saving and copying with background.</p>
+          <p class="hint no-select" id="ec-hint" data-i18n="settings_backgroundColorTip">For saving and copying with background.</p>
         </div>
 
       </section>
@@ -113,8 +113,8 @@
     <footer class="footer">
       <div class="container footer-inner">
         <div class="footer-left">
-          <p><b>MyQR</b></p>
-          <p data-i18n="info_forFolks">Made for folks 💚</p>
+          <p id="footer-appName" class="no-select"><b>MyQR</b></p>
+          <p data-i18n="info_forFolks" class="no-select">Made for folks 💚</p>
         </div>
         <div class="footer-right">
           <a href="https://github.com/InstalerUP/MyQR" target="_blank">
@@ -124,7 +124,7 @@
       </div>
     </footer>
 
-    <script src="neutralino.js"></script>
+    <script src="js/neutralino.js"></script>
     <script src="js/qrcode.min.js"></script>
     <script src="js/main.js"></script>
   </body>

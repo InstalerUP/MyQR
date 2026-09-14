@@ -1,5 +1,14 @@
 'use strict';
 
+/* ==================== Neutralino init ==================== */
+if (typeof window.Neutralino !== 'undefined' && window.NL_PORT) {
+  try {
+    Neutralino.init();
+  } catch (e) {
+    console.warn('Neutralino init failed', e);
+  }
+}
+
 /* ==================== Translation ==================== */
 let translations = {};
 let currentLang = localStorage.getItem('app_lang') || 'ru';
@@ -54,6 +63,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 });
+
+Neutralino.init();
+
+Neutralino.events.on("ready", () => {
+    // Находим наш элемент и вставляем в него текст с авто-версией
+    const versionLabel = document.getElementById("footer-appName");
+    if (versionLabel) {
+        versionLabel.innerHTML = `<b>MyQR</b> | v${NL_APPVERSION}`;
+    }
+});
+
 
 /* ==================== State ==================== */
 const EXPORT_SIZE = 1024;   // size PNG/JPG
@@ -134,6 +154,51 @@ function triggerDownload(blob, filename) {
 
 function stamp() {
   return new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-');
+}
+
+/* ==================== Native save dialog (Neutralino) ==================== */
+function isNativeMode() {
+  return typeof window.Neutralino !== 'undefined' &&
+         !!window.Neutralino.os &&
+         !!window.Neutralino.filesystem &&
+         !!window.NL_PORT &&
+         (!window.NL_MODE || window.NL_MODE === 'window');
+}
+
+async function pickSavePath(fileName, filters) {
+  let defaultPath = fileName;
+  try {
+    const dir = await Neutralino.os.getPath('downloads');
+    if (dir) defaultPath = `${dir}/${fileName}`;
+  } catch (e) {
+    // если папку загрузок получить не удалось — открываем диалог с именем файла
+  }
+  return await Neutralino.os.showSaveDialog('Save QR code', {
+    defaultPath,
+    filters
+  });
+}
+
+/* Пытается сохранить файл через системный диалог выбора пути.
+   Возвращает: 'saved' (сохранено), 'cancelled' (пользователь отменил)
+   или 'fallback' (нативный способ недоступен/не сработал). */
+async function saveFileViaDialog(fileName, filters, data, isText = false) {
+  if (!isNativeMode()) return 'fallback';
+
+  try {
+    const path = await pickSavePath(fileName, filters);
+    if (!path) return 'cancelled';
+
+    if (isText) {
+      await Neutralino.filesystem.writeFile(path, data);
+    } else {
+      await Neutralino.filesystem.writeBinaryFile(path, data);
+    }
+    return 'saved';
+  } catch (e) {
+    console.warn('Native save failed, falling back to browser download', e);
+    return 'fallback';
+  }
 }
 
 /* ==================== Color Swatches ==================== */
@@ -259,8 +324,15 @@ async function downloadSvg() {
   try {
     const qr = buildQr(STATE.text, STATE.ecLevel);
     const svg = buildQrSvg(qr, STATE.fgColor);
-    const blob = new Blob([svg], { type: 'image/svg+xml;charset=utf-8' });
-    triggerDownload(blob, `qr-${stamp()}.svg`);
+    const fileName = `qr-${stamp()}.svg`;
+    const filters = [{ name: 'SVG Image', extensions: ['svg'] }];
+
+    const result = await saveFileViaDialog(fileName, filters, svg, true);
+    if (result === 'cancelled') return;
+    if (result === 'fallback') {
+      triggerDownload(new Blob([svg], { type: 'image/svg+xml;charset=utf-8' }), fileName);
+    }
+
     toast(getTranslation('mess_saveSVG_succes'));
   } catch (e) {
     toast(getTranslation('mess_saveErr'), true);
@@ -270,11 +342,17 @@ async function downloadSvg() {
 async function downloadPng() {
   try {
     const canvas = await renderToCanvas({ size: EXPORT_SIZE, background: null });
-    canvas.toBlob((blob) => {
-      if (!blob) return toast(getTranslation('mess_saveErr'), true);
-      triggerDownload(blob, `qr-${stamp()}.png`);
-      toast(getTranslation('mess_savePNG_succes'));
-    }, 'image/png');
+    const fileName = `qr-${stamp()}.png`;
+    const filters = [{ name: 'PNG Image', extensions: ['png'] }];
+    const blob = await new Promise((resolve, reject) => {
+      canvas.toBlob((b) => b ? resolve(b) : reject(new Error('toBlob failed')), 'image/png');
+    });
+
+    const result = await saveFileViaDialog(fileName, filters, await blob.arrayBuffer());
+    if (result === 'cancelled') return;
+    if (result === 'fallback') triggerDownload(blob, fileName);
+
+    toast(getTranslation('mess_savePNG_succes'));
   } catch (e) {
     toast(getTranslation('mess_saveErr'), true);
   }
@@ -283,11 +361,17 @@ async function downloadPng() {
 async function downloadJpg() {
   try {
     const canvas = await renderToCanvas({ size: EXPORT_SIZE, background: STATE.bgColor });
-    canvas.toBlob((blob) => {
-      if (!blob) return toast(getTranslation('mess_saveErr'), true);
-      triggerDownload(blob, `qr-${stamp()}.jpg`);
-      toast(getTranslation('mess_saveJPG_succes'));
-    }, 'image/jpeg', 0.92);
+    const fileName = `qr-${stamp()}.jpg`;
+    const filters = [{ name: 'JPG Image', extensions: ['jpg', 'jpeg'] }];
+    const blob = await new Promise((resolve, reject) => {
+      canvas.toBlob((b) => b ? resolve(b) : reject(new Error('toBlob failed')), 'image/jpeg', 0.92);
+    });
+
+    const result = await saveFileViaDialog(fileName, filters, await blob.arrayBuffer());
+    if (result === 'cancelled') return;
+    if (result === 'fallback') triggerDownload(blob, fileName);
+
+    toast(getTranslation('mess_saveJPG_succes'));
   } catch (e) {
     toast(getTranslation('mess_saveErr'), true);
   }
