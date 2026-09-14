@@ -75,6 +75,11 @@ body {
   align-items: stretch;
 }
 
+#header-logo{
+  width: 54px;
+  margin-top: 6px;
+}
+
 .logo {
   font-size: 1.5rem;
   font-weight: 800;
@@ -382,22 +387,33 @@ body {
   background: #dc2626;
 }
 
-/* .footer {
-  margin-top: auto;
-  padding: 10px 0;
-  text-align: center;
-  color: var(--muted);
-  font-size: 0.8rem;
-  border-top: 1px solid var(--border);
-  background: var(--card);
-} */
 
 
-#footer-table {
-  width: 800px;
+.footer {
+  width: 100%;
   background: var(--footer);
   color: var(--card);
   font-size: 0.8rem;
-  padding-left: 42px;
-  padding-right: 42px;
+}
+
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding-top: 18px;
+  padding-bottom: 18px;
+}
+
+.footer-left {
+  text-align: left;
+}
+
+.footer-right {
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.footer-right img {
+  display: block;
 }
