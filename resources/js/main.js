@@ -21,12 +21,6 @@ function getTranslation(key) {
 }
 
 /* ==================== Persistent settings ==================== */
-/*
-  Neutralino.storage хранит настройки в папке данных приложения и не зависит
-  от порта локального сервера. localStorage оставлен как резервный вариант
-  (в собранном приложении он бесполезен: порт при каждом запуске новый,
-  поэтому origin — и хранилище вместе с ним — каждый раз другой).
-*/
 function hasNativeStorage() {
     return typeof window.Neutralino !== 'undefined' &&
            !!window.Neutralino.storage &&
@@ -39,7 +33,6 @@ async function readSetting(key) {
             const value = await Neutralino.storage.getData(key);
             if (value) return value;
         } catch (e) {
-            // записи ещё нет — это нормально, пробуем резервное хранилище
         }
     }
 
@@ -62,11 +55,9 @@ async function writeSetting(key, value) {
     try {
         localStorage.setItem(key, value);
     } catch (e) {
-        // localStorage может быть недоступен — игнорируем
     }
 }
 
-/* Список доступных языков берём из самого селектора */
 function availableLangs() {
     const select = document.getElementById('lang_select');
     if (!select) return [DEFAULT_LANG];
@@ -103,7 +94,6 @@ async function loadTranslations() {
     }
 }
 
-/* Читает сохранённый язык и применяет локализацию */
 async function initLanguage() {
     const saved = await readSetting(SETTINGS_KEY);
     currentLang = availableLangs().includes(saved) ? saved : DEFAULT_LANG;
@@ -129,11 +119,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
-/* Версия приложения в подвале — после готовности Neutralino */
+/* App version */
 if (typeof window.Neutralino !== 'undefined') {
     try {
         Neutralino.events.on("ready", () => {
-            // Находим наш элемент и вставляем в него текст с авто-версией
             const versionLabel = document.getElementById("footer-appName");
             if (versionLabel) {
                 versionLabel.innerHTML = `<b>MyQR</b> | v${window.NL_APPVERSION}`;
@@ -241,7 +230,6 @@ async function pickSavePath(fileName, filters) {
     const dir = await Neutralino.os.getPath('downloads');
     if (dir) defaultPath = `${dir}/${fileName}`;
   } catch (e) {
-    // если папку загрузок получить не удалось — открываем диалог с именем файла
   }
   return await Neutralino.os.showSaveDialog('Save QR code', {
     defaultPath,
@@ -249,9 +237,6 @@ async function pickSavePath(fileName, filters) {
   });
 }
 
-/* Пытается сохранить файл через системный диалог выбора пути.
-   Возвращает: 'saved' (сохранено), 'cancelled' (пользователь отменил)
-   или 'fallback' (нативный способ недоступен/не сработал). */
 async function saveFileViaDialog(fileName, filters, data, isText = false) {
   if (!isNativeMode()) return 'fallback';
 
