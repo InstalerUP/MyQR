@@ -1,4 +1,4 @@
-### Language:</br>
+### Язык:</br>
 <img src="https://etf2l.org/images/flags/UnitedKingdom.gif" height="13"> - [Read in English](README.md)</br>
 <img src="https://etf2l.org/images/flags/Russia.gif" height="13"> - [Читать на русском языке](README.ru.md)
 ---
