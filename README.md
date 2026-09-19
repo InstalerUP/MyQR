@@ -12,7 +12,10 @@
 A small utility for creating a QR code from your text or link and saving it in a convenient format. Everything works on your computer – not a single link leaves your machine.
 
 ## Screenshots
-
+<div align="middle">
+    <img width="auto" height="400" alt="MyQR-screenshot-1" src="https://github.com/user-attachments/assets/db97166b-44fa-4db7-96da-b785faf8de7b" />
+    <img width="auto" height="400" alt="MyQR-screenshot-2" src="https://github.com/user-attachments/assets/7291609f-cdad-4668-bc37-bb9e25c01ba2" />
+</div>
 
 ## Features
 
@@ -94,7 +97,7 @@ MyQR/
 
 ### 🚀 Local development run
 
-You will need [Node.js 18+ (LTS)](https://nodejs.org/en/download).
+You will need [Node.js v18+ (LTS)](https://nodejs.org/en/download).
 
 ```bash
 # 1. Clone the repository
