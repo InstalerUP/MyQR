@@ -12,7 +12,10 @@
 Небольшая утилита для создания и сохранения в удобном формате QR-кода по Вашему тексту или ссылке. Всё работает на вашем компьютере – ни одна ссылка не уходит в сеть.
 
 ## Скриншоты
-
+<div align="middle">
+    <img width="auto" height="400" alt="MyQR-screenshot-1" src="https://github.com/user-attachments/assets/db97166b-44fa-4db7-96da-b785faf8de7b" />
+    <img width="auto" height="400" alt="MyQR-screenshot-2" src="https://github.com/user-attachments/assets/7291609f-cdad-4668-bc37-bb9e25c01ba2" />
+</div>
 
 ## Особенности
 
@@ -93,7 +96,7 @@ MyQR/
 
 ### 🚀 Локальный запуск для разработки
 
-Понадобится [Node.js 18+ (LTS)](https://nodejs.org/en/download).
+Понадобится [Node.js v18+ (LTS)](https://nodejs.org/en/download).
 
 ```bash
 # 1. Клонируем репозиторий
