@@ -13,8 +13,8 @@
 
 ## Скриншоты
 <div align="middle">
-    <img width="auto" height="400" alt="MyQR-screenshot-1" src="https://github.com/user-attachments/assets/db97166b-44fa-4db7-96da-b785faf8de7b" />
-    <img width="auto" height="400" alt="MyQR-screenshot-2" src="https://github.com/user-attachments/assets/7291609f-cdad-4668-bc37-bb9e25c01ba2" />
+    <img width="auto" height="300" alt="MyQR-screenshot-1" src="https://github.com/user-attachments/assets/db97166b-44fa-4db7-96da-b785faf8de7b" />
+    <img width="auto" height="300" alt="MyQR-screenshot-2" src="https://github.com/user-attachments/assets/7291609f-cdad-4668-bc37-bb9e25c01ba2" />
 </div>
 
 ## Особенности
